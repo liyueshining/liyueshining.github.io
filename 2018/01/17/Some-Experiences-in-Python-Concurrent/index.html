@@ -3,14 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Moon</title>
+  <title>Some Experiences in Python Concurrent | Moon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Moon">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="遇到的坑创建了进程池后，启动的时候，总是报错，一到进程池这里就报错。 123Exception in thread Thread-2:...TypeError: expected string or Unicode object, NoneType found 查了一天终于发现了问题，在创建进程时。传给进程的target的参数必须能够被pickle序列化，有些特殊的对象类型和自定义的类对象无法被p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Some Experiences in Python Concurrent">
+<meta property="og:url" content="http://yoursite.com/2018/01/17/Some-Experiences-in-Python-Concurrent/index.html">
 <meta property="og:site_name" content="Moon">
+<meta property="og:description" content="遇到的坑创建了进程池后，启动的时候，总是报错，一到进程池这里就报错。 123Exception in thread Thread-2:...TypeError: expected string or Unicode object, NoneType found 查了一天终于发现了问题，在创建进程时。传给进程的target的参数必须能够被pickle序列化，有些特殊的对象类型和自定义的类对象无法被p">
+<meta property="og:updated_time" content="2018-01-17T14:29:15.292Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Moon">
+<meta name="twitter:title" content="Some Experiences in Python Concurrent">
+<meta name="twitter:description" content="遇到的坑创建了进程池后，启动的时候，总是报错，一到进程池这里就报错。 123Exception in thread Thread-2:...TypeError: expected string or Unicode object, NoneType found 查了一天终于发现了问题，在创建进程时。传给进程的target的参数必须能够被pickle序列化，有些特殊的对象类型和自定义的类对象无法被p">
   
     <link rel="alternate" href="/atom.xml" title="Moon" type="application/atom+xml">
   
@@ -59,9 +63,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-Some-Experiences-in-Python-Concurrent" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Some-Experiences-in-Python-Concurrent" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/17/Some-Experiences-in-Python-Concurrent/" class="article-date">
   <time datetime="2018-01-17T13:35:55.000Z" itemprop="datePublished">2018-01-17</time>
@@ -74,8 +76,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/17/Some-Experiences-in-Python-Concurrent/">Some Experiences in Python Concurrent</a>
+    <h1 class="article-title" itemprop="name">
+      Some Experiences in Python Concurrent
     </h1>
   
 
@@ -106,102 +108,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-multiprocessing-Pool-in-Python" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/08/multiprocessing-Pool-in-Python/" class="article-date">
-  <time datetime="2018-01-08T14:12:18.000Z" itemprop="datePublished">2018-01-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/08/multiprocessing-Pool-in-Python/">multiprocessing Pool in Python</a>
-    </h1>
+    <a href="/2018/01/08/multiprocessing-Pool-in-Python/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">multiprocessing Pool in Python</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>由于Python的GIL锁的缘故，多线程并不能有效解决并行的问题，因此处理并行问题需要使用多进程。</p>
-<h2 id="如何使用进程池"><a href="#如何使用进程池" class="headerlink" title="如何使用进程池"></a>如何使用进程池</h2><h3 id="首先，创建进程池"><a href="#首先，创建进程池" class="headerlink" title="首先，创建进程池"></a>首先，创建进程池</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</div><div class="line"></div><div class="line">pool = Pool(processes=<span class="number">3</span>)    <span class="comment"># set the processes max number 3</span></div></pre></td></tr></table></figure>
-<h3 id="然后，将并行处理的任务放入进程池中，并保存进程的返回结果"><a href="#然后，将并行处理的任务放入进程池中，并保存进程的返回结果" class="headerlink" title="然后，将并行处理的任务放入进程池中，并保存进程的返回结果"></a>然后，将并行处理的任务放入进程池中，并保存进程的返回结果</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">results = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">11</span>, <span class="number">20</span>):</div><div class="line">        logger.info(<span class="string">'i is : '</span> + str(i))</div><div class="line">        <span class="comment">#exec_result = pool.apply_async(func, (i,))</span></div><div class="line">        url = <span class="string">'https://api.github.com/'</span></div><div class="line">        exec_result = pool.apply_async(HttpOperation.http_get, (url,))</div><div class="line">        results.append(exec_result)</div></pre></td></tr></table></figure>
-<h3 id="最后，等待各个子进程执行完成"><a href="#最后，等待各个子进程执行完成" class="headerlink" title="最后，等待各个子进程执行完成"></a>最后，等待各个子进程执行完成</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pool.close() 首先要先关闭进程池</div><div class="line">pool.join()  等待进程执行结束</div></pre></td></tr></table></figure>
-<h3 id="判断进程执行结果"><a href="#判断进程执行结果" class="headerlink" title="判断进程执行结果"></a>判断进程执行结果</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> result <span class="keyword">in</span> results:</div><div class="line">        <span class="keyword">if</span> result.successful() <span class="keyword">is</span> <span class="keyword">False</span>:</div><div class="line">            <span class="keyword">raise</span> Exception(<span class="string">'there is a process execute fail'</span>)</div><div class="line">        logger.info(<span class="string">'success'</span>)</div></pre></td></tr></table></figure>
-<h3 id="关于多进程的日志"><a href="#关于多进程的日志" class="headerlink" title="关于多进程的日志"></a>关于多进程的日志</h3><p>Python有自带的logging模块，而且是线程安全的，但是在多进程的情况下，会有写日志冲突的问题</p>
-<p>解决该问题需要使用ConcurrentLogHandler库</p>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">pip install ConcurrentLogHandler</div><div class="line"></div><div class="line">或 下载后 执行</div><div class="line"></div><div class="line">python setup.py install</div></pre></td></tr></table></figure>
-<h4 id="logger-conf的配置"><a href="#logger-conf的配置" class="headerlink" title="logger.conf的配置"></a>logger.conf的配置</h4><p>也比较简单，只需要多加一个handler即可，如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[handler_hand04]</div><div class="line">class=cloghandler.ConcurrentRotatingFileHandler</div><div class="line">level=INFO</div><div class="line">formatter=form01</div><div class="line">args=(&apos;d:/pythonprojects/finance/stocks/log/finance.log&apos;, &apos;a&apos;, 10*1024*1024, 5)</div></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/08/multiprocessing-Pool-in-Python/" data-id="cjcj5z47g00021cviym4jz6d3" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-multiprocessing-Pool-logging/">python multiprocessing Pool logging</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/08/28/hello-world/" class="article-date">
-  <time datetime="2017-08-28T13:35:58.032Z" itemprop="datePublished">2017-08-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/28/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/28/hello-world/" data-id="cjcj5z46z00011cvivv2pkxrd" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 </section>
         
