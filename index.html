@@ -61,6 +61,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-How-to-give-user-root-ssh-right-in-ubuntu-OS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/" class="article-date">
+  <time datetime="2018-02-04T13:39:01.000Z" itemprop="datePublished">2018-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/">How to give user root ssh right in ubuntu OS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文主要讲的是在Ubuntu用户下，如何给root用户放开ssh的链接权限，<br>大多数情况下，该权限默认是有的，但也有人为了安全加固会关掉。</p>
+<p>方法如下：</p>
+<p>1，在/etc/ssh目录下找到sshd_config文件，将PermitRootLogin设置为yes,<br>保存后，重启sshd服务，<br>命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd /etc/ssh</div><div class="line">vi sshd_config</div><div class="line"></div><div class="line">service sshd restart</div></pre></td></tr></table></figure>
+<p>2, ssh默认使用的链接端口是22，要修改端口号的话也是修改上述文件，<br>找到Port行，把注释去掉，将端口改为自己想要的端口，<br>保存后，重启sshd服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd /etc/ssh</div><div class="line">vi sshd_config</div><div class="line"></div><div class="line">service sshd restart</div></pre></td></tr></table></figure>
+<p>3，修改root用户的密码为cloud，</p>
+<p>如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line"></div><div class="line">passwd</div></pre></td></tr></table></figure></p>
+<p>输入上面的命令后，根据提示信息输入新密码：cloud,需要输入两次。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/" data-id="cjd8uogon00002gvix0rkxtg1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Some-Experiences-in-Python-Concurrent" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/17/Some-Experiences-in-Python-Concurrent/" class="article-date">
@@ -100,7 +145,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/17/Some-Experiences-in-Python-Concurrent/" data-id="cjcj5z45w00001cvizw754ej9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/17/Some-Experiences-in-Python-Concurrent/" data-id="cjd8uogr000012gvi7af812mz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -145,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/08/multiprocessing-Pool-in-Python/" data-id="cjcj5z47g00021cviym4jz6d3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/08/multiprocessing-Pool-in-Python/" data-id="cjd8uogra00032gviaxy1ogjp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-multiprocessing-Pool-logging/">python multiprocessing Pool logging</a></li></ul>
@@ -192,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/28/hello-world/" data-id="cjcj5z46z00011cvivv2pkxrd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/08/28/hello-world/" data-id="cjd8uogr400022gvi8cvi1ey0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -233,7 +278,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
     </div>
   </div>
 
@@ -244,6 +289,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/">How to give user root ssh right in ubuntu OS</a>
+          </li>
         
           <li>
             <a href="/2018/01/17/Some-Experiences-in-Python-Concurrent/">Some Experiences in Python Concurrent</a>
