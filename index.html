@@ -61,6 +61,55 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-how-to-execute-command-and-convert-str-to-json-in-python-md" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/" class="article-date">
+  <time datetime="2018-03-22T15:36:27.000Z" itemprop="datePublished">2018-03-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/">how-to-execute-command-and-convert-str-to-json-in-python.md</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="python-中调用命令的方式："><a href="#python-中调用命令的方式：" class="headerlink" title="python 中调用命令的方式："></a>python 中调用命令的方式：</h3><p>1.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line">os.system(<span class="string">'cmd'</span>)</div></pre></td></tr></table></figure>
+<p>会启动一个子shell执行，底层是调用的C的底层方法system()，该方法 在cmd执行过程中有大量打印的话 会报broken pipe的问题.</p>
+<p>2.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">status, output = commands.getstatusoutput(<span class="string">"ls"</span>)</div></pre></td></tr></table></figure>
+<p>该方法则不会出现broken pipe的问题，底层是新开了一个进程。调用的是</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">os.popen()</div></pre></td></tr></table></figure>
+<h3 id="Python-将字符串转为json对象："><a href="#Python-将字符串转为json对象：" class="headerlink" title="Python 将字符串转为json对象："></a>Python 将字符串转为json对象：</h3><p>1.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eval(<span class="string">'string'</span>)</div></pre></td></tr></table></figure>
+<p>该方法，简单的可以转化为字典,复杂一点的就会转换失败</p>
+<p>2.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> json</div><div class="line"></div><div class="line">json.dumps(<span class="string">'string'</span>)</div></pre></td></tr></table></figure>
+<p>使用该方法，基本上都可以转换。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/" data-id="cjf2pn8hq0004dgvighxscmh8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-how-to-encrypt-with-base64-and-aes256-md" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/03/05/how-to-encrypt-with-base64-and-aes256-md/" class="article-date">
@@ -96,7 +145,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/05/how-to-encrypt-with-base64-and-aes256-md/" data-id="cjeecwafc0003b0vi0jd0pvvx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/03/05/how-to-encrypt-with-base64-and-aes256-md/" data-id="cjf2pn8gm0002dgvindohj63t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -141,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/" data-id="cjeecwaf50001b0vic6wgrlz0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/" data-id="cjf2pn8g80000dgvioiu969uv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -190,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/17/Some-Experiences-in-Python-Concurrent/" data-id="cjeecwaex0000b0viuwtgslj2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/17/Some-Experiences-in-Python-Concurrent/" data-id="cjf2pn8gz0003dgviyskjm9n0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -235,7 +284,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/08/multiprocessing-Pool-in-Python/" data-id="cjeecwafd0004b0vi89k6mvq4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/08/multiprocessing-Pool-in-Python/" data-id="cjf2pn8hu0005dgvimnuzrnt9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-multiprocessing-Pool-logging/">python multiprocessing Pool logging</a></li></ul>
@@ -282,7 +331,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/28/hello-world/" data-id="cjeecwaf90002b0viudd4big5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/08/28/hello-world/" data-id="cjf2pn8gi0001dgvi5iur57t1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -336,6 +385,10 @@
       <ul>
         
           <li>
+            <a href="/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/">how-to-execute-command-and-convert-str-to-json-in-python.md</a>
+          </li>
+        
+          <li>
             <a href="/2018/03/05/how-to-encrypt-with-base64-and-aes256-md/">how-to-encrypt-with-base64-and-aes256.md</a>
           </li>
         
@@ -349,10 +402,6 @@
         
           <li>
             <a href="/2018/01/08/multiprocessing-Pool-in-Python/">multiprocessing Pool in Python</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/28/hello-world/">Hello World</a>
           </li>
         
       </ul>

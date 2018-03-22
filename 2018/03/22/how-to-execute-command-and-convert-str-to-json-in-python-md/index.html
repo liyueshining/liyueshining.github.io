@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>How to give user root ssh right in ubuntu OS | Moon</title>
+  <title>how-to-execute-command-and-convert-str-to-json-in-python.md | Moon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文主要讲的是在Ubuntu用户下，如何给root用户放开ssh的链接权限，大多数情况下，该权限默认是有的，但也有人为了安全加固会关掉。 方法如下： 1，在/etc/ssh目录下找到sshd_config文件，将PermitRootLogin设置为yes,保存后，重启sshd服务，命令如下： 1234cd /etc/sshvi sshd_configservice sshd restart 2,">
+  <meta name="description" content="python 中调用命令的方式：1. 12import osos.system(&apos;cmd&apos;) 会启动一个子shell执行，底层是调用的C的底层方法system()，该方法 在cmd执行过程中有大量打印的话 会报broken pipe的问题. 2. 1status, output = commands.getstatusoutput(&quot;ls&quot;) 该方法则不会出现broken pipe的问题，底层是新">
 <meta property="og:type" content="article">
-<meta property="og:title" content="How to give user root ssh right in ubuntu OS">
-<meta property="og:url" content="http://yoursite.com/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/index.html">
+<meta property="og:title" content="how-to-execute-command-and-convert-str-to-json-in-python.md">
+<meta property="og:url" content="http://yoursite.com/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/index.html">
 <meta property="og:site_name" content="Moon">
-<meta property="og:description" content="本文主要讲的是在Ubuntu用户下，如何给root用户放开ssh的链接权限，大多数情况下，该权限默认是有的，但也有人为了安全加固会关掉。 方法如下： 1，在/etc/ssh目录下找到sshd_config文件，将PermitRootLogin设置为yes,保存后，重启sshd服务，命令如下： 1234cd /etc/sshvi sshd_configservice sshd restart 2,">
-<meta property="og:updated_time" content="2018-02-04T13:55:21.335Z">
+<meta property="og:description" content="python 中调用命令的方式：1. 12import osos.system(&apos;cmd&apos;) 会启动一个子shell执行，底层是调用的C的底层方法system()，该方法 在cmd执行过程中有大量打印的话 会报broken pipe的问题. 2. 1status, output = commands.getstatusoutput(&quot;ls&quot;) 该方法则不会出现broken pipe的问题，底层是新">
+<meta property="og:updated_time" content="2018-03-22T16:05:20.834Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="How to give user root ssh right in ubuntu OS">
-<meta name="twitter:description" content="本文主要讲的是在Ubuntu用户下，如何给root用户放开ssh的链接权限，大多数情况下，该权限默认是有的，但也有人为了安全加固会关掉。 方法如下： 1，在/etc/ssh目录下找到sshd_config文件，将PermitRootLogin设置为yes,保存后，重启sshd服务，命令如下： 1234cd /etc/sshvi sshd_configservice sshd restart 2,">
+<meta name="twitter:title" content="how-to-execute-command-and-convert-str-to-json-in-python.md">
+<meta name="twitter:description" content="python 中调用命令的方式：1. 12import osos.system(&apos;cmd&apos;) 会启动一个子shell执行，底层是调用的C的底层方法system()，该方法 在cmd执行过程中有大量打印的话 会报broken pipe的问题. 2. 1status, output = commands.getstatusoutput(&quot;ls&quot;) 该方法则不会出现broken pipe的问题，底层是新">
   
     <link rel="alternate" href="/atom.xml" title="Moon" type="application/atom+xml">
   
@@ -63,10 +63,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-How-to-give-user-root-ssh-right-in-ubuntu-OS" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-how-to-execute-command-and-convert-str-to-json-in-python-md" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/" class="article-date">
-  <time datetime="2018-02-04T13:39:01.000Z" itemprop="datePublished">2018-02-04</time>
+    <a href="/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/" class="article-date">
+  <time datetime="2018-03-22T15:36:27.000Z" itemprop="datePublished">2018-03-22</time>
 </a>
     
   </div>
@@ -77,7 +77,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      How to give user root ssh right in ubuntu OS
+      how-to-execute-command-and-convert-str-to-json-in-python.md
     </h1>
   
 
@@ -85,20 +85,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文主要讲的是在Ubuntu用户下，如何给root用户放开ssh的链接权限，<br>大多数情况下，该权限默认是有的，但也有人为了安全加固会关掉。</p>
-<p>方法如下：</p>
-<p>1，在/etc/ssh目录下找到sshd_config文件，将PermitRootLogin设置为yes,<br>保存后，重启sshd服务，<br>命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd /etc/ssh</div><div class="line">vi sshd_config</div><div class="line"></div><div class="line">service sshd restart</div></pre></td></tr></table></figure>
-<p>2, ssh默认使用的链接端口是22，要修改端口号的话也是修改上述文件，<br>找到Port行，把注释去掉，将端口改为自己想要的端口，<br>保存后，重启sshd服务</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd /etc/ssh</div><div class="line">vi sshd_config</div><div class="line"></div><div class="line">service sshd restart</div></pre></td></tr></table></figure>
-<p>3，修改root用户的密码为cloud，</p>
-<p>如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line"></div><div class="line">passwd</div></pre></td></tr></table></figure></p>
-<p>输入上面的命令后，根据提示信息输入新密码：cloud,需要输入两次。</p>
+        <h3 id="python-中调用命令的方式："><a href="#python-中调用命令的方式：" class="headerlink" title="python 中调用命令的方式："></a>python 中调用命令的方式：</h3><p>1.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line">os.system(<span class="string">'cmd'</span>)</div></pre></td></tr></table></figure>
+<p>会启动一个子shell执行，底层是调用的C的底层方法system()，该方法 在cmd执行过程中有大量打印的话 会报broken pipe的问题.</p>
+<p>2.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">status, output = commands.getstatusoutput(<span class="string">"ls"</span>)</div></pre></td></tr></table></figure>
+<p>该方法则不会出现broken pipe的问题，底层是新开了一个进程。调用的是</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">os.popen()</div></pre></td></tr></table></figure>
+<h3 id="Python-将字符串转为json对象："><a href="#Python-将字符串转为json对象：" class="headerlink" title="Python 将字符串转为json对象："></a>Python 将字符串转为json对象：</h3><p>1.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eval(<span class="string">'string'</span>)</div></pre></td></tr></table></figure>
+<p>该方法，简单的可以转化为字典,复杂一点的就会转换失败</p>
+<p>2.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> json</div><div class="line"></div><div class="line">json.dumps(<span class="string">'string'</span>)</div></pre></td></tr></table></figure>
+<p>使用该方法，基本上都可以转换。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/" data-id="cjf2pn8g80000dgvioiu969uv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/" data-id="cjf2pn8hq0004dgvighxscmh8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -107,19 +111,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/03/05/how-to-encrypt-with-base64-and-aes256-md/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          how-to-encrypt-with-base64-and-aes256.md
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/01/17/Some-Experiences-in-Python-Concurrent/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/03/05/how-to-encrypt-with-base64-and-aes256-md/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Some Experiences in Python Concurrent</div>
+      <div class="article-nav-title">how-to-encrypt-with-base64-and-aes256.md</div>
     </a>
   
 </nav>
