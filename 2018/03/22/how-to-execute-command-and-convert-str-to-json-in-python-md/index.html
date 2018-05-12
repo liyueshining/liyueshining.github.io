@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/index.html">
 <meta property="og:site_name" content="Moon">
 <meta property="og:description" content="python 中调用命令的方式：1. 12import osos.system(&apos;cmd&apos;) 会启动一个子shell执行，底层是调用的C的底层方法system()，该方法 在cmd执行过程中有大量打印的话 会报broken pipe的问题. 2. 1status, output = commands.getstatusoutput(&quot;ls&quot;) 该方法则不会出现broken pipe的问题，底层是新">
-<meta property="og:updated_time" content="2018-03-22T16:05:20.834Z">
+<meta property="og:updated_time" content="2018-05-12T00:29:03.548Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="how-to-execute-command-and-convert-str-to-json-in-python.md">
 <meta name="twitter:description" content="python 中调用命令的方式：1. 12import osos.system(&apos;cmd&apos;) 会启动一个子shell执行，底层是调用的C的底层方法system()，该方法 在cmd执行过程中有大量打印的话 会报broken pipe的问题. 2. 1status, output = commands.getstatusoutput(&quot;ls&quot;) 该方法则不会出现broken pipe的问题，底层是新">
@@ -96,13 +96,13 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eval(<span class="string">'string'</span>)</div></pre></td></tr></table></figure>
 <p>该方法，简单的可以转化为字典,复杂一点的就会转换失败</p>
 <p>2.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> json</div><div class="line"></div><div class="line">json.dumps(<span class="string">'string'</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> json</div><div class="line"></div><div class="line"><span class="comment">#convert json object to string</span></div><div class="line">json.dumps(JsonObject)</div><div class="line"></div><div class="line"><span class="comment"># convert string to json object</span></div><div class="line">json.loads(<span class="string">'string'</span>)</div></pre></td></tr></table></figure>
 <p>使用该方法，基本上都可以转换。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/" data-id="cjg0uua13000avovik33zbksc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/" data-id="cjh2npqwa000754vizujdyuow" class="article-share-link">Share</a>
       
       
     </footer>
