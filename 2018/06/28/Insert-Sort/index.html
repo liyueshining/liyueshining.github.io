@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Insert Sort | Moon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Insert Sort排序算法：默认采用升序，两个遍历，第一个是全范围的遍历，第二个是首元素和当前元素之前的小范围遍历，使元素在该小范围内保持有序，如果第二个遍历中的当前元素大于第一个遍历中的当前元素，则将该元素及后面的元素整体向后移动一位，并小的元素插入到第二个遍历中当前元素的位置。 时间复杂度：O(N^2) 空间复杂度：O(1) 稳定性： 稳定 Code(Java)12345678910111">
+<meta name="keywords" content="Sort">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Insert Sort">
+<meta property="og:url" content="http://yoursite.com/2018/06/28/Insert-Sort/index.html">
+<meta property="og:site_name" content="Moon">
+<meta property="og:description" content="Insert Sort排序算法：默认采用升序，两个遍历，第一个是全范围的遍历，第二个是首元素和当前元素之前的小范围遍历，使元素在该小范围内保持有序，如果第二个遍历中的当前元素大于第一个遍历中的当前元素，则将该元素及后面的元素整体向后移动一位，并小的元素插入到第二个遍历中当前元素的位置。 时间复杂度：O(N^2) 空间复杂度：O(1) 稳定性： 稳定 Code(Java)12345678910111">
+<meta property="og:updated_time" content="2018-06-28T15:00:38.293Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Insert Sort">
+<meta name="twitter:description" content="Insert Sort排序算法：默认采用升序，两个遍历，第一个是全范围的遍历，第二个是首元素和当前元素之前的小范围遍历，使元素在该小范围内保持有序，如果第二个遍历中的当前元素大于第一个遍历中的当前元素，则将该元素及后面的元素整体向后移动一位，并小的元素插入到第二个遍历中当前元素的位置。 时间复杂度：O(N^2) 空间复杂度：O(1) 稳定性： 稳定 Code(Java)12345678910111">
+  
+    <link rel="alternate" href="/atom.xml" title="Moon" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Moon</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Insert-Sort" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/28/Insert-Sort/" class="article-date">
+  <time datetime="2018-06-28T14:25:09.000Z" itemprop="datePublished">2018-06-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Insert Sort
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Insert-Sort"><a href="#Insert-Sort" class="headerlink" title="Insert Sort"></a>Insert Sort</h2><p>排序算法：默认采用升序，两个遍历，第一个是全范围的遍历，<br>第二个是首元素和当前元素之前的小范围遍历，使元素在该小范围内保持有序，<br>如果第二个遍历中的当前元素大于第一个遍历中的当前元素，<br>则将该元素及后面的元素整体向后移动一位，并小的元素插入到第二个遍历中当前元素的位置。</p>
+<p>时间复杂度：O(N^2)</p>
+<p>空间复杂度：O(1)</p>
+<p>稳定性： 稳定</p>
+<h2 id="Code-Java"><a href="#Code-Java" class="headerlink" title="Code(Java)"></a>Code(Java)</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> moon;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.time.Duration;</div><div class="line"><span class="keyword">import</span> java.time.Instant;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * Hello world!</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Integer[] originSequence = <span class="keyword">new</span> Integer[]&#123;<span class="number">12</span>, <span class="number">18</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">40</span>, <span class="number">36</span>, <span class="number">9</span>, <span class="number">20</span>, <span class="number">15</span>, <span class="number">39</span>&#125;;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        System.out.println( <span class="string">"insert sort"</span> );</div><div class="line">        Instant now = Instant.now();</div><div class="line">        <span class="keyword">new</span> App().insertSort();</div><div class="line">        System.out.println( <span class="string">"time(ms) cost is : "</span> + Duration.between(now, Instant.now()).toMillis());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line"><span class="comment">    * insert sort is based on sorted sequence, then move whole part</span></div><div class="line"><span class="comment">    * */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertSort</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> counter = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; originSequence.length; index++) &#123;</div><div class="line">            counter++;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (index == <span class="number">0</span>)&#123;</div><div class="line">                System.out.println(<span class="string">"first: "</span> + counter + <span class="string">": "</span> + StringUtils.join(originSequence, <span class="string">" "</span>));</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">int</span> secondCounter = <span class="number">0</span>;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> secondIndex = <span class="number">0</span>; secondIndex &lt; index; secondIndex++) &#123;</div><div class="line">                secondCounter++;</div><div class="line">                <span class="keyword">if</span> (originSequence[secondIndex] &gt; originSequence[index]) &#123;</div><div class="line">                    <span class="keyword">int</span> temp = originSequence[index];</div><div class="line"></div><div class="line">                    System.arraycopy(originSequence, secondIndex, originSequence, secondIndex + <span class="number">1</span>, index - secondIndex);</div><div class="line"></div><div class="line">                    originSequence[secondIndex] = temp;</div><div class="line">                    System.out.println(<span class="string">"first:second "</span> + counter + <span class="string">": "</span> + secondCounter + <span class="string">", "</span> +StringUtils.join(originSequence, <span class="string">" "</span>));</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/28/Insert-Sort/" data-id="cjiyoiek80003xcviaicio7qn" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sort/">Sort</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/27/简历-resume/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">简历-resume</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES256-BASE64/">AES256 BASE64</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bcrypt/">Bcrypt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sort/">Sort</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-commands-json/">python commands json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-multiprocessing-Pool-logging/">python multiprocessing Pool logging</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-四则运算-Java/">算法 四则运算 Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频-录屏/">视频 录屏</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AES256-BASE64/" style="font-size: 10px;">AES256 BASE64</a> <a href="/tags/Bcrypt/" style="font-size: 10px;">Bcrypt</a> <a href="/tags/Sort/" style="font-size: 10px;">Sort</a> <a href="/tags/python-commands-json/" style="font-size: 10px;">python commands json</a> <a href="/tags/python-multiprocessing-Pool-logging/" style="font-size: 10px;">python multiprocessing Pool logging</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/算法-四则运算-Java/" style="font-size: 10px;">算法 四则运算 Java</a> <a href="/tags/视频-录屏/" style="font-size: 10px;">视频 录屏</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/06/28/Insert-Sort/">Insert Sort</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/27/简历-resume/">简历-resume</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/12/算法-四则运算-Java/">算法-四则运算-Java</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/15/Bcrypt-加密算法-简介-md/">Bcrypt-加密算法-简介.md</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/02/关于录屏软件和视频编辑软件-md/">关于录屏软件和视频编辑软件.md</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Moon<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
