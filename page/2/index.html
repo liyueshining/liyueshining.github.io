@@ -65,6 +65,55 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Some-Experiences-in-Python-Concurrent" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/17/Some-Experiences-in-Python-Concurrent/" class="article-date">
+  <time datetime="2018-01-17T13:35:55.000Z" itemprop="datePublished">2018-01-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/17/Some-Experiences-in-Python-Concurrent/">Some Experiences in Python Concurrent</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h2><p>创建了进程池后，启动的时候，总是报错，一到进程池这里就报错。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Exception <span class="keyword">in</span> thread Thread-2:</div><div class="line">...</div><div class="line">TypeError: expected string or Unicode object, NoneType found</div></pre></td></tr></table></figure>
+<p>查了一天终于发现了问题，在创建进程时。传给进程的target的参数必须能够被pickle序列化，<br>有些特殊的对象类型和自定义的类对象无法被pickle序列化，会导致进程启动失败。</p>
+<p>这次传给target的参数是经过ET库读取xml文件后的对象，无法被pickle序列化。才会出现该现象，</p>
+<p>后来提交将需要的数据 从对象中取出，在作为参数传给target，问题解决！</p>
+<h2 id="关于-httplib2在并发情况下的坑"><a href="#关于-httplib2在并发情况下的坑" class="headerlink" title="关于 httplib2在并发情况下的坑"></a>关于 httplib2在并发情况下的坑</h2><p>多个http请求方法共用 同一个httplib2对象时，在多进程或多线程的情况下，会导致消息体错乱，</p>
+<p>如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> httplib2</div><div class="line"></div><div class="line">h2 = httplib2.Http(<span class="string">'.cache'</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">http_get</span><span class="params">(url)</span>:</span></div><div class="line">    resp2, content2 = h2.request(url)</div><div class="line">    logger.info(resp2.get(<span class="string">'status'</span>))</div><div class="line">    logger.info(content2)</div><div class="line">    <span class="keyword">return</span> resp2, content2</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">http_put</span><span class="params">(url)</span>:</span></div><div class="line">    resp2, content2 = h2.request(url, <span class="string">'PUT'</span>)</div><div class="line">    logger.info(resp2.get(<span class="string">'status'</span>))</div><div class="line">    logger.info(content2)</div><div class="line">    <span class="keyword">return</span> resp2, content2</div></pre></td></tr></table></figure>
+<p>解决方法是，每个方法持有自己的httplib2实例，如下;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> httplib2</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">http_get</span><span class="params">(url)</span>:</span></div><div class="line">    h2 = httplib2.Http(<span class="string">'.cache'</span>)</div><div class="line">    resp2, content2 = h2.request(url)</div><div class="line">    logger.info(resp2.get(<span class="string">'status'</span>))</div><div class="line">    logger.info(content2)</div><div class="line">    <span class="keyword">return</span> resp2, content2</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">http_put</span><span class="params">(url)</span>:</span></div><div class="line">    h2 = httplib2.Http(<span class="string">'.cache'</span>)</div><div class="line">    resp2, content2 = h2.request(url, <span class="string">'PUT'</span>)</div><div class="line">    logger.info(resp2.get(<span class="string">'status'</span>))</div><div class="line">    logger.info(content2)</div><div class="line">    <span class="keyword">return</span> resp2, content2</div></pre></td></tr></table></figure></p>
+<h2 id="基于multiprocessing模块创建线程池"><a href="#基于multiprocessing模块创建线程池" class="headerlink" title="基于multiprocessing模块创建线程池"></a>基于multiprocessing模块创建线程池</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding=utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep, time</div><div class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</div><div class="line"><span class="keyword">from</span> multiprocessing.dummy <span class="keyword">import</span> Pool <span class="keyword">as</span> ThreadPool</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(x)</span>:</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">        logger.info(<span class="string">'%s --- %s '</span> % (i, x))</div><div class="line">        sleep(<span class="number">1</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    logger.info(<span class="string">'start to log!'</span>)</div><div class="line">    start = time()</div><div class="line">    results = []</div><div class="line">    pool = Pool(processes=<span class="number">3</span>)     <span class="comment"># create process pool, set the processes max number 3</span></div><div class="line">    thread_pool = ThreadPool(<span class="number">3</span>)  <span class="comment"># create thread pool, set size 3</span></div><div class="line"></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">11</span>, <span class="number">20</span>):</div><div class="line">        logger.info(<span class="string">'i is : '</span> + str(i))</div><div class="line"></div><div class="line">        url = <span class="string">'https://api.github.com/'</span></div><div class="line">        <span class="comment">#exec_result = pool.apply_async(HttpOperation.http_get, (url,))</span></div><div class="line"></div><div class="line">        exec_result = thread_pool.apply_async(func, (i,))</div><div class="line"></div><div class="line">        results.append(exec_result)</div><div class="line"></div><div class="line">    <span class="comment"># pool.close()</span></div><div class="line">    <span class="comment"># pool.join()</span></div><div class="line"></div><div class="line">    thread_pool.close()</div><div class="line">    thread_pool.join()</div><div class="line"></div><div class="line">    <span class="keyword">for</span> result <span class="keyword">in</span> results:</div><div class="line">        <span class="keyword">if</span> result.successful() <span class="keyword">is</span> <span class="keyword">False</span>:</div><div class="line">            <span class="keyword">raise</span> Exception(<span class="string">'there is a process execute fail'</span>)</div><div class="line">        logger.info(<span class="string">'success'</span>)</div><div class="line"></div><div class="line">    logger.info(<span class="string">'successful'</span>)</div><div class="line"></div><div class="line">    logger.info(<span class="string">'spend time: &#123;0&#125;'</span>.format(time() - start))</div></pre></td></tr></table></figure>
+<h2 id="基于futures模块创建进程池和线程池"><a href="#基于futures模块创建进程池和线程池" class="headerlink" title="基于futures模块创建进程池和线程池"></a>基于futures模块创建进程池和线程池</h2><p>Python标准库提供了threading和multiprocessing模块编写相应的多线程/多进程代码。</p>
+<p>从Python3.2开始，标准库提供了concurrent.futures模块，它提供了ThreadPoolExecutor和ProcessPoolExecutor两个类，实现了对threading和multiprocessing的更高级的抽象，对编写线程池/进程池提供了直接的支持。</p>
+<p>concurrent.futures基础模块是executor和future</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># coding: utf-8</span></div><div class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ThreadPoolExecutor <span class="keyword">as</span> Pool</div><div class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> wait</div><div class="line"><span class="keyword">import</span> requests</div><div class="line"></div><div class="line">URLS = [<span class="string">'http://qq.com'</span>, <span class="string">'http://sina.com'</span>, <span class="string">'http://www.baidu.com'</span>, ]</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span><span class="params">(url, timeout=<span class="number">10</span>)</span>:</span></div><div class="line">    <span class="keyword">return</span> requests.get(url, timeout=timeout)</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">with</span> Pool(max_workers=<span class="number">3</span>) <span class="keyword">as</span> executor:</div><div class="line">    future_tasks = [executor.submit(task, url) <span class="keyword">for</span> url <span class="keyword">in</span> URLS]</div><div class="line"></div><div class="line">    <span class="keyword">for</span> f <span class="keyword">in</span> future_tasks:</div><div class="line">        <span class="keyword">if</span> f.running():</div><div class="line">            print(<span class="string">'%s is running'</span> % str(f))</div><div class="line"></div><div class="line">    results = wait(future_tasks)</div><div class="line">    done = results[<span class="number">0</span>]</div><div class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> done:</div><div class="line">        print(x)</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/17/Some-Experiences-in-Python-Concurrent/" data-id="cjrxlbpit0002cgvix3w652y1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-multiprocessing-Pool-in-Python" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/08/multiprocessing-Pool-in-Python/" class="article-date">
@@ -100,7 +149,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/08/multiprocessing-Pool-in-Python/" data-id="cjn8ze7u8000erwvisej5wo0m" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/08/multiprocessing-Pool-in-Python/" data-id="cjrxlbpjq000ecgvi7u1iqo2m" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-multiprocessing-Pool-logging/">python multiprocessing Pool logging</a></li></ul>
@@ -147,7 +196,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/28/hello-world/" data-id="cjn8ze7t50004rwvi8pim13h6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/08/28/hello-world/" data-id="cjrxlbpj10004cgvimh6r8qrh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -173,7 +222,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES256-BASE64/">AES256 BASE64</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bcrypt/">Bcrypt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sort/">Sort</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-commands-json/">python commands json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-multiprocessing-Pool-logging/">python multiprocessing Pool logging</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-四则运算-Java/">算法 四则运算 Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-字符串有效性-堆栈/">算法 字符串有效性 堆栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频-录屏/">视频 录屏</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES256-BASE64/">AES256 BASE64</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bcrypt/">Bcrypt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sort/">Sort</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins-pipeline/">jenkins pipeline</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-commands-json/">python commands json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-multiprocessing-Pool-logging/">python multiprocessing Pool logging</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-四则运算-Java/">算法 四则运算 Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-字符串有效性-堆栈/">算法 字符串有效性 堆栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频-录屏/">视频 录屏</a></li></ul>
     </div>
   </div>
 
@@ -183,7 +232,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AES256-BASE64/" style="font-size: 10px;">AES256 BASE64</a> <a href="/tags/Bcrypt/" style="font-size: 10px;">Bcrypt</a> <a href="/tags/Sort/" style="font-size: 10px;">Sort</a> <a href="/tags/python-commands-json/" style="font-size: 10px;">python commands json</a> <a href="/tags/python-multiprocessing-Pool-logging/" style="font-size: 10px;">python multiprocessing Pool logging</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/算法-四则运算-Java/" style="font-size: 10px;">算法 四则运算 Java</a> <a href="/tags/算法-字符串有效性-堆栈/" style="font-size: 10px;">算法 字符串有效性 堆栈</a> <a href="/tags/视频-录屏/" style="font-size: 10px;">视频 录屏</a>
+      <a href="/tags/AES256-BASE64/" style="font-size: 10px;">AES256 BASE64</a> <a href="/tags/Bcrypt/" style="font-size: 10px;">Bcrypt</a> <a href="/tags/Sort/" style="font-size: 10px;">Sort</a> <a href="/tags/jenkins-pipeline/" style="font-size: 10px;">jenkins pipeline</a> <a href="/tags/python-commands-json/" style="font-size: 10px;">python commands json</a> <a href="/tags/python-multiprocessing-Pool-logging/" style="font-size: 10px;">python multiprocessing Pool logging</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/算法-四则运算-Java/" style="font-size: 10px;">算法 四则运算 Java</a> <a href="/tags/算法-字符串有效性-堆栈/" style="font-size: 10px;">算法 字符串有效性 堆栈</a> <a href="/tags/视频-录屏/" style="font-size: 10px;">视频 录屏</a>
     </div>
   </div>
 
@@ -192,7 +241,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
     </div>
   </div>
 
@@ -203,6 +252,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/02/09/some-practises-about-jenkins-pipeline/">some-practises-about-jenkins-pipeline</a>
+          </li>
         
           <li>
             <a href="/2018/10/14/算法-检查字符串中括号的有效性/">算法-检查字符串中括号的有效性</a>
@@ -220,10 +273,6 @@
             <a href="/2018/05/12/算法-四则运算-Java/">算法-四则运算-Java</a>
           </li>
         
-          <li>
-            <a href="/2018/04/15/Bcrypt-加密算法-简介-md/">Bcrypt-加密算法-简介.md</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -236,7 +285,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 Moon<br>
+      &copy; 2019 Moon<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
