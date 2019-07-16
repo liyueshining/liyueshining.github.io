@@ -52,9 +52,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -64,6 +64,55 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-how-to-use-scheduler-in-springboot" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/16/how-to-use-scheduler-in-springboot/" class="article-date">
+  <time datetime="2019-07-16T15:22:13.000Z" itemprop="datePublished">2019-07-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/16/how-to-use-scheduler-in-springboot/">how-to-use-scheduler-in-springboot</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Springboot-scheduled的使用"><a href="#Springboot-scheduled的使用" class="headerlink" title="Springboot scheduled的使用"></a>Springboot scheduled的使用</h1><p>最近项目中需要做定时任务，发现springboot的定时任务使用起来简直方便之极。</p>
+<h2 id="开启schedule功能"><a href="#开启schedule功能" class="headerlink" title="开启schedule功能"></a>开启schedule功能</h2><p>首先需要在启动类中加上@EnableScheduling注解来开启定时任务。如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="meta">@EnableScheduling</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringbootPracticeApplication</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		SpringApplication.run(SpringbootPracticeApplication.class, args);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="创建-定时任务"><a href="#创建-定时任务" class="headerlink" title="创建 定时任务"></a>创建 定时任务</h2><p>在方法前添加@Scheduled注解即可，如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Service</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TaskScheduleService</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(TaskScheduleService.class);</div><div class="line"></div><div class="line">    <span class="meta">@Scheduled</span>(cron = <span class="string">"0 0/1 * * * ?"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scheduleTask</span><span class="params">()</span> </span>&#123;</div><div class="line">        logger.info(<span class="string">"timer scheduled per minute"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Scheduled</span>(cron = <span class="string">"0 0 0/6 * * ?"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scheduleJob</span><span class="params">()</span> </span>&#123;</div><div class="line">       logger.info(<span class="string">"timer scheduler per six hours"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Scheduled-定时任务的执行方式"><a href="#Scheduled-定时任务的执行方式" class="headerlink" title="@Scheduled 定时任务的执行方式"></a>@Scheduled 定时任务的执行方式</h2><h3 id="fixedDelay"><a href="#fixedDelay" class="headerlink" title="fixedDelay"></a>fixedDelay</h3><p>指定两次任务执行的时间间隔(毫秒)，此时间间隔指的是，前一次任务结束与下一个任务开始的间隔。如：@Scheduled(fixedDelay = 5*1000 )，表示第一个任务结束后，过5秒后，开始第二个任务。</p>
+<h3 id="fixedRate"><a href="#fixedRate" class="headerlink" title="fixedRate"></a>fixedRate</h3><p>指定两次任务执行的时间间隔(毫秒)，此时间间隔指的是，前一个任务开始与下一个任务开始的间隔。如：@Scheduled(fixedRate= 5*1000 )，表示第一个任务开始后(第一个任务执行时间小于5秒)，第一个任务开始后的第6秒，开始第二个任务。如果第一个任务执行时间大于5秒，第一个任务结束后，直接开始第二个任务。</p>
+<h3 id="cron"><a href="#cron" class="headerlink" title="cron"></a>cron</h3><p>使用表达是进行任务的执行，例如：@Scheduled(cron = “0/15 <em> </em> <em> </em> ? “)每隔15秒执行一次.<br>cron一般是六个或七个字段，分别是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1. Seconds （秒） </div><div class="line">2. Minutes （分） </div><div class="line">3. Hours （时） </div><div class="line">4. Day (每月的第几天,day-of-month) </div><div class="line">5. Month （月） </div><div class="line">6. Day （每周的第几天,day-of-week） </div><div class="line">7. Year (年 可选字段)</div></pre></td></tr></table></figure></p>
+<p>每个字段的范围以及特殊字符<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">秒 ：范围:0－59 </div><div class="line">分 ：范围:0－59</div><div class="line">时 ：范围:0-23</div><div class="line">天（月） ：范围:1-31,但要注意一些特别的月份2月份没有只能1-28，有些月份没有31</div><div class="line">月 ：用0-11 或用字符串 “JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV and DEC” 表示</div><div class="line">天（周）：用1-7表示（1 ＝ 星期日）或用字符口串“SUN, MON, TUE, WED, THU, FRI and SAT”表示</div><div class="line">年：范围:1970－2099</div><div class="line"> </div><div class="line">“/”：表示为“每”，如“0/10”表示每隔10分钟执行一次,“0”表示为从“0”分开始, “3/20”表示表示每隔20分钟执行一次</div><div class="line">“?”：只用于月与周，表示不指定值</div><div class="line">“L”：只用于月与周，5L用在月表示为每月的最后第五天天；1L用在周表示每周的最后一天；</div><div class="line">“W”：:表示有效工作日(周一到周五),只能出现在day-of-month，系统将在离指定日期的最近的有效工作日触发事件。例如：在 DayofMonth使用5W，如果5日是星期六，则将在最近的工作日：星期五，即4日触发。如果5日是星期天，则在6日(周一)触发；如果5日在星期一到星期五中的一天，则就在5日触发。另外一点，W的最近寻找不会跨过月份 </div><div class="line">“#”：用于确定每个月第几个星期几，只能出现在DayofMonth域。例如在4#2，表示某月的第二个星期三。</div><div class="line">“*” 代表整个时间段。</div><div class="line"> </div><div class="line">注意：每个元素可以是一个值(如6),一个连续区间(9-12),一个间隔时间(8-18/4)(/表示每隔4小时),一个列表(1,3,5),通配符。由于&quot;月份中的日期&quot;和&quot;星期中的日期&quot;这两个元素互斥的,必须要对其中一个设置‘?’</div></pre></td></tr></table></figure></p>
+<h2 id="为定时任务创建多线程池"><a href="#为定时任务创建多线程池" class="headerlink" title="为定时任务创建多线程池"></a>为定时任务创建多线程池</h2><p>spring 的定时任务默认是单线程的，如果有多个定时任务的话，需要开发者自定义TaskScheduer,如下：<br>在Configuration类中重新定义TaskScheduler即可<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringBootPracticeConfiguration</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Bean</span></div><div class="line">    <span class="function"><span class="keyword">public</span> TaskScheduler <span class="title">scheduledExecutorService</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">//used for spring scheduler</span></div><div class="line">        ThreadPoolTaskScheduler scheduler = <span class="keyword">new</span> ThreadPoolTaskScheduler();</div><div class="line">        scheduler.setPoolSize(<span class="number">8</span>);</div><div class="line">        scheduler.setThreadNamePrefix(<span class="string">"scheduled-thread-"</span>);</div><div class="line">        <span class="keyword">return</span> scheduler;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="犯过的错"><a href="#犯过的错" class="headerlink" title="犯过的错"></a>犯过的错</h2><p>项目中需要定期去更新缓存，想要达到的目的是每6个小时执行一次，之前设置的cron如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@Scheduled(cron = &quot;* * 0/6 * * ?&quot;)</div></pre></td></tr></table></figure></p>
+<p>发现该表达式会在0点的00分到59分一直执行，问题就出现在前面两个<em>号，</em>代表整个时间段。<br>如果只需要执行一次的话，cron表达式应该是下面这样的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@Scheduled(cron = &quot;0 0 0/6 * * ?&quot;)</div></pre></td></tr></table></figure></p>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/16/how-to-use-scheduler-in-springboot/" data-id="cjy5yvpx50002x4vi6fcgs5dm" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot-Scheduler/">SpringBoot Scheduler</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-some-practises-about-jenkins-pipeline" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -99,7 +148,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/09/some-practises-about-jenkins-pipeline/" data-id="cjrxlbpj60005cgviafb5v6sj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/09/some-practises-about-jenkins-pipeline/" data-id="cjy5yvpz4000ex4vijf3mmpxv" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jenkins-pipeline/">jenkins pipeline</a></li></ul>
@@ -138,7 +187,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/14/算法-检查字符串中括号的有效性/" data-id="cjrxlbpkg000jcgvitnmo7pf2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/14/算法-检查字符串中括号的有效性/" data-id="cjy5yvq0c000wx4viw6y7atw3" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法-字符串有效性-堆栈/">算法 字符串有效性 堆栈</a></li></ul>
@@ -180,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/28/Insert-Sort/" data-id="cjrxlbpip0001cgvi42zim1at" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/28/Insert-Sort/" data-id="cjy5yvpxv0005x4vi5o24q5g1" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sort/">Sort</a></li></ul>
@@ -260,7 +309,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/27/简历-resume/" data-id="cjrxlbpjt000fcgvi9ti4ty0o" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/27/简历-resume/" data-id="cjy5yvpza000gx4viuxjs5juc" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/resume/">resume</a></li></ul>
@@ -304,7 +353,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/12/算法-四则运算-Java/" data-id="cjrxlbpjm000bcgvik2347en8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/12/算法-四则运算-Java/" data-id="cjy5yvpzi000ix4vidbu9762q" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法-四则运算-Java/">算法 四则运算 Java</a></li></ul>
@@ -346,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/04/15/Bcrypt-加密算法-简介-md/" data-id="cjrxlbpj90006cgvig461axnm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/04/15/Bcrypt-加密算法-简介-md/" data-id="cjy5yvpx00001x4vid73mk85a" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bcrypt/">Bcrypt</a></li></ul>
@@ -397,7 +446,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/04/02/关于录屏软件和视频编辑软件-md/" data-id="cjrxlbpkc000hcgvi9f302odt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/04/02/关于录屏软件和视频编辑软件-md/" data-id="cjy5yvpz0000cx4vip4ek9aky" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/视频-录屏/">视频 录屏</a></li></ul>
@@ -450,7 +499,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/" data-id="cjrxlbpjk000acgvie13mrej7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/03/22/how-to-execute-command-and-convert-str-to-json-in-python-md/" data-id="cjy5yvpxf0004x4viv1pg5t8p" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-commands-json/">python commands json</a></li></ul>
@@ -497,56 +546,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/05/how-to-encrypt-with-base64-and-aes256-md/" data-id="cjrxlbpji0009cgviq3c2dspt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/03/05/how-to-encrypt-with-base64-and-aes256-md/" data-id="cjy5yvpyy000ax4virel6czi9" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AES256-BASE64/">AES256 BASE64</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-How-to-give-user-root-ssh-right-in-ubuntu-OS" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/" class="article-date">
-  <time datetime="2018-02-04T13:39:01.000Z" itemprop="datePublished">2018-02-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/">How to give user root ssh right in ubuntu OS</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文主要讲的是在Ubuntu用户下，如何给root用户放开ssh的链接权限，<br>大多数情况下，该权限默认是有的，但也有人为了安全加固会关掉。</p>
-<p>方法如下：</p>
-<p>1，在/etc/ssh目录下找到sshd_config文件，将PermitRootLogin设置为yes,<br>保存后，重启sshd服务，<br>命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd /etc/ssh</div><div class="line">vi sshd_config</div><div class="line"></div><div class="line">service sshd restart</div></pre></td></tr></table></figure>
-<p>2, ssh默认使用的链接端口是22，要修改端口号的话也是修改上述文件，<br>找到Port行，把注释去掉，将端口改为自己想要的端口，<br>保存后，重启sshd服务</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd /etc/ssh</div><div class="line">vi sshd_config</div><div class="line"></div><div class="line">service sshd restart</div></pre></td></tr></table></figure>
-<p>3，修改root用户的密码为cloud，</p>
-<p>如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line"></div><div class="line">passwd</div></pre></td></tr></table></figure></p>
-<p>输入上面的命令后，根据提示信息输入新密码：cloud,需要输入两次。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/04/How-to-give-user-root-ssh-right-in-ubuntu-OS/" data-id="cjrxlbpib0000cgvid6fzqva2" class="article-share-link">Share</a>
-      
-      
     </footer>
   </div>
   
@@ -568,9 +572,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">Mot-clés</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES256-BASE64/">AES256 BASE64</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bcrypt/">Bcrypt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sort/">Sort</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins-pipeline/">jenkins pipeline</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-commands-json/">python commands json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-multiprocessing-Pool-logging/">python multiprocessing Pool logging</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-四则运算-Java/">算法 四则运算 Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-字符串有效性-堆栈/">算法 字符串有效性 堆栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频-录屏/">视频 录屏</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES256-BASE64/">AES256 BASE64</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bcrypt/">Bcrypt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sort/">Sort</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot-Scheduler/">SpringBoot Scheduler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins-pipeline/">jenkins pipeline</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-commands-json/">python commands json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-multiprocessing-Pool-logging/">python multiprocessing Pool logging</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resume/">resume</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-四则运算-Java/">算法 四则运算 Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-字符串有效性-堆栈/">算法 字符串有效性 堆栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频-录屏/">视频 录屏</a></li></ul>
     </div>
   </div>
 
@@ -578,9 +582,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nuage de mot-clés</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AES256-BASE64/" style="font-size: 10px;">AES256 BASE64</a> <a href="/tags/Bcrypt/" style="font-size: 10px;">Bcrypt</a> <a href="/tags/Sort/" style="font-size: 10px;">Sort</a> <a href="/tags/jenkins-pipeline/" style="font-size: 10px;">jenkins pipeline</a> <a href="/tags/python-commands-json/" style="font-size: 10px;">python commands json</a> <a href="/tags/python-multiprocessing-Pool-logging/" style="font-size: 10px;">python multiprocessing Pool logging</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/算法-四则运算-Java/" style="font-size: 10px;">算法 四则运算 Java</a> <a href="/tags/算法-字符串有效性-堆栈/" style="font-size: 10px;">算法 字符串有效性 堆栈</a> <a href="/tags/视频-录屏/" style="font-size: 10px;">视频 录屏</a>
+      <a href="/tags/AES256-BASE64/" style="font-size: 10px;">AES256 BASE64</a> <a href="/tags/Bcrypt/" style="font-size: 10px;">Bcrypt</a> <a href="/tags/Sort/" style="font-size: 10px;">Sort</a> <a href="/tags/SpringBoot-Scheduler/" style="font-size: 10px;">SpringBoot Scheduler</a> <a href="/tags/jenkins-pipeline/" style="font-size: 10px;">jenkins pipeline</a> <a href="/tags/python-commands-json/" style="font-size: 10px;">python commands json</a> <a href="/tags/python-multiprocessing-Pool-logging/" style="font-size: 10px;">python multiprocessing Pool logging</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/算法-四则运算-Java/" style="font-size: 10px;">算法 四则运算 Java</a> <a href="/tags/算法-字符串有效性-堆栈/" style="font-size: 10px;">算法 字符串有效性 堆栈</a> <a href="/tags/视频-录屏/" style="font-size: 10px;">视频 录屏</a>
     </div>
   </div>
 
@@ -589,7 +593,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
     </div>
   </div>
 
@@ -597,9 +601,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/07/16/how-to-use-scheduler-in-springboot/">how-to-use-scheduler-in-springboot</a>
+          </li>
         
           <li>
             <a href="/2019/02/09/some-practises-about-jenkins-pipeline/">some-practises-about-jenkins-pipeline</a>
@@ -617,10 +625,6 @@
             <a href="/2018/05/27/简历-resume/">简历-resume</a>
           </li>
         
-          <li>
-            <a href="/2018/05/12/算法-四则运算-Java/">算法-四则运算-Java</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -634,7 +638,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2019 Moon<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
