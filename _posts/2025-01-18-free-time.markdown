@@ -20,6 +20,25 @@ GM给大家介绍了公司的整体情况，重要的两点，
 是全的，奇怪的replica 好像有几个delete event没有执行，导致冲突，insert失败，sync broken，同样的操作在dev也测试了，sync没有问题，
 非常奇怪，目前还没有找到具体的原因。
 
+2025-02-28：原因找到了：  
+```bash
+Why mysql source and replica not sync when set --replicate-do-db :
+https://dev.mysql.com/doc/refman/8.0/en/replication-options-replica.html
+https://dev.mysql.com/doc/refman/8.0/en/replication-rules.html
+
+An example of what does not work as you might expect when using statement-based replication: 
+If the replica is started with --replicate-do-db=sales 
+and you issue the following statements on the source, the UPDATE statement is not replicated:
+
+USE prices;
+UPDATE sales.january SET amount=amount+1000;
+
+If you need cross-database updates to work, use --replicate-wild-do-table=db_name.% instead.
+
+parameters:
+"ParameterName=replicate-wild-do-table,ParameterValue='id.%',ApplyMethod=immediate"
+```
+
 周六早上5点中起床，天还没亮，一说出去旅行，小朋友腾地就起床穿衣服了。送到了车站，也才6点钟。
 等了一会儿跟朋友汇合，快7点钟的时候，两个妈妈带着两个宝宝踏上了去泉州的列车。送走她们之后，去了车站附近的母校溜溜，
 由于没有带身份证，只能绕着校园外围走走看看，感受一下当年在校时的点滴。
